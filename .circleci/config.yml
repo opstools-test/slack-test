@@ -1,30 +1,8 @@
 version: '2.1'
 orbs:
-  slack: circleci/slack@4.0
+  welcome: circleci/welcome-orb@0.4.1
 jobs:
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
-workflows:
-  send-notification:
+  welcome:
+    # Run the welcome/run job in its own container
     jobs:
-      - notify:
-          context: slack-secrets
+      - welcome/run
