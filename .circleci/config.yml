@@ -1,23 +1,19 @@
-version: '2.1'
+version: 2.1
+
 orbs:
-  node: 'circleci/node:4.0'
-  slack: circleci/slack@4.0
+  slack: circleci/slack@3.4.2
+
 jobs:
-  deploy:
-    executor:
-      name: node/default
+  hello:
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
-      - node/install-packages
-      - run:
-          command: npm run deploy
-      - slack/notify:
-          channel: trial
-          event: pass
-          template: basic_fail_1
+      - run: exit 0
+      - slack/status
+
 workflows:
-  deploy_and_notify:
+  version: 2
+  ci:
     jobs:
-      - deploy:
-          context:
-            - slack-secrets
+      - hello
