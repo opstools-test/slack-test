@@ -1,14 +1,12 @@
 version: '2.1'
 orbs:
-  node: 'circleci/node:4.0'
   slack: circleci/slack@4.0
 jobs:
-  deploy:
-    executor:
-      name: node/default
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
     steps:
       - slack/notify:
-          channel: 'ABCXYZ, ZXCVBN'
           custom: |
             {
               "blocks": [
@@ -26,7 +24,7 @@ jobs:
             }
           event: always
 workflows:
-  deploy_and_notify:
+  send-notification:
     jobs:
-      - deploy:
+      - notify:
           context: slack-secrets
